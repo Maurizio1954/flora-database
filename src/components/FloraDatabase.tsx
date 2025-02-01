@@ -47,32 +47,18 @@ export const FloraDatabase = () => {
   
   if ("geolocation" in navigator) {
     navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const lat = position.coords.latitude.toFixed(8).replace('.', ',');
-        const lon = position.coords.longitude.toFixed(8).replace('.', ',');
-        setCoordinates(`${lat} ${lon}`);
-        setGpsStatus('Posizione acquisita con successo');
-        
-        const accuracy = Math.round(position.coords.accuracy);
-        if (accuracy > 100) {
-          setGpsStatus(`Posizione acquisita (precisione: ${accuracy}m - Precisione bassa, tipica del Mac)`);
-        } else {
-          setGpsStatus(`Posizione acquisita (precisione: ${accuracy}m)`);
-        }
-      },
-      (_error) => { // Aggiunto underscore per indicare che è intenzionalmente non usato
-        setGpsStatus('Posizione non disponibile - Prova a utilizzare un dispositivo mobile per una migliore precisione');
-      },
-      {
-        enableHighAccuracy: false,
-        timeout: 30000,
-        maximumAge: 300000
-      }
-    );
-  } else {
-    setGpsStatus('Il tuo dispositivo non supporta la geolocalizzazione');
+  (position) => {
+    // ... resto del codice ...
+  },
+  () => { // Rimosso completamente il parametro error
+    setGpsStatus('Posizione non disponibile - Prova a utilizzare un dispositivo mobile per una migliore precisione');
+  },
+  {
+    enableHighAccuracy: false,
+    timeout: 30000,
+    maximumAge: 300000
   }
-};
+);
 
   const showOnMap = (coords: string) => {
     if (!coords) return;
